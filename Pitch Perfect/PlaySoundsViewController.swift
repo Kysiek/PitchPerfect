@@ -7,29 +7,65 @@
 //
 
 import UIKit
+import AVFoundation
 
 class PlaySoundsViewController: UIViewController {
 
+    var receivedAudio: RecordedAudio!
+    
+    var pitchPerfectAPI: PitchPerfectAPI!
+    
+    @IBOutlet weak var startStopButton: UIButton!
+    @IBOutlet weak var durationLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        pitchPerfectAPI = PitchPerfectAPI(recorderAudio: receivedAudio)
+        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(animated: Bool) {
+        setDurationLabel()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
-    */
+    
+    @IBAction func playSlow(sender: AnyObject) {
+        pitchPerfectAPI.playSnailEffect()
+    }
+    @IBAction func playFast(sender: AnyObject) {
+        pitchPerfectAPI.playRabbitEffect()
+    }
 
+    @IBAction func playChipmunk(sender: AnyObject) {
+        pitchPerfectAPI.playChipmuntEffect()
+    }
+    @IBAction func playDarthVader(sender: AnyObject) {
+        pitchPerfectAPI.playDarthVaderEffect()
+    }
+    @IBAction func playEcho(sender: AnyObject) {
+        pitchPerfectAPI.playEchoEffect()
+    }
+    
+    @IBAction func playReverb(sender: AnyObject) {
+        pitchPerfectAPI.playReverbEffect()
+    }
+    
+    @IBAction func stopAudio(sender: AnyObject) {
+        var nameOfImage: String = "resumeBlue"
+        if pitchPerfectAPI.isPlaying() {
+            pitchPerfectAPI.pausePlaying()
+        } else {
+            nameOfImage = "pauseBlue"
+            pitchPerfectAPI.resumePlaying()
+        }
+        startStopButton.setImage(UIImage(named: nameOfImage), forState: .Normal)
+    }
+    
+    private func setDurationLabel() {
+        durationLabel.text = "Duration: \(pitchPerfectAPI.getDuration()) s"
+    }
 }

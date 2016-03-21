@@ -7,3 +7,10 @@
 //
 
 import Foundation
+
+enum PlayMode {
+    case DiffRate
+    case Pitch
+    case Echo
+    case Reverb
+}
